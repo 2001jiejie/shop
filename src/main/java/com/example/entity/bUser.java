@@ -1,7 +1,8 @@
-package com.example.shop.entity;
+package com.example.entity;
 
 import lombok.Data;
 
+//用户信息表
 @Data
 public class bUser {
   private Integer id;
