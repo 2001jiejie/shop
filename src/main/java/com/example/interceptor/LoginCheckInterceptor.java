@@ -14,14 +14,10 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String url = request.getRequestURL().toString();
-        if (url.contains("/login") || url.contains("/register") || url.contains("/favicon.ico")) {
-            return true;
-        }
 
         String jwt = (String) request.getSession().getAttribute("jwt");
         if (jwt == null || jwt.isEmpty()) {
-            //response.sendRedirect("/login");
+            response.sendRedirect("/login");
             return false;
         }
 
@@ -31,7 +27,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
             Integer userId = Integer.parseInt(userIdStr);
             BaseContext.setCurrentId(userId); // 设置当前用户 ID
         } catch (Exception e) {
-            //response.sendRedirect("/login");
+           response.sendRedirect("/login");
             return false;
         }
 
