@@ -1,11 +1,15 @@
 package com.example.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 //订单基础表
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class orderbase {
    private Integer id;
    private Integer bustable_id;      //用户id

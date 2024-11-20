@@ -1,9 +1,13 @@
 package com.example.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 //商品信息表
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class goodstable {
 private Integer id;
 private String gname;
