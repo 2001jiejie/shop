@@ -2,6 +2,7 @@ package com.example.controller;
 
 import com.example.entity.Result;
 import com.example.entity.aUser;
+import com.example.entity.bUser;
 import com.example.service.AdminService;
 import com.example.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;

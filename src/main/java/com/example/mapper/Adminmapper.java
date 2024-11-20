@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 @Mapper
 public interface Adminmapper {
-
-    @Select("select * from auser where aname=#{ausername} and apwd=#{apassword}")
-    aUser login(@Param("ausername") String ausername,@Param("apassword") String apassword);
+    @Select("select * from auser where aname = #{ausername} ")
+    aUser findByAdminname(@Param("ausername") String ausername);
 }
