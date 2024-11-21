@@ -24,10 +24,8 @@ public class Usercontroller {
                                 HttpServletRequest request) {
         bUser user = userservice.login(username, password);
         if (user != null) {
-            String jwt = JwtUtils.generateToken(user.getId());
-            request.getSession().setAttribute("jwt", jwt);
-            request.getSession().setAttribute("user", user);
-            return Result.success();
+            String jwt=JwtUtils.generateToken(user.getId());
+            return Result.success(jwt);
         } else {
             return Result.error("用户名或密码错误");
         }

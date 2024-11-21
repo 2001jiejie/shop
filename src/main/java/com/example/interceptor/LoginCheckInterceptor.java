@@ -15,12 +15,12 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        String jwt = (String) request.getSession().getAttribute("jwt");
-        if (jwt == null || jwt.isEmpty()) {
-            response.sendRedirect("/login");
+        String authorizationHeader = request.getHeader("Authorization");
+        if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
+            response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return false;
         }
-
+        String jwt=authorizationHeader.substring(7);
         try {
             Claims claims = JwtUtils.parseJWT(jwt);
             String userIdStr = claims.getSubject();
