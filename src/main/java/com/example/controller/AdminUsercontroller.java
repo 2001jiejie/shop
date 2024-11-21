@@ -6,6 +6,7 @@ import com.example.entity.bUser;
 import com.example.service.AdminService;
 import com.example.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -33,5 +34,11 @@ public class AdminUsercontroller {
         } else {
             return Result.error("管理员用户名或密码错误");
         }
+    }
+
+    //管理员退出
+    @GetMapping("/adminlogout")
+    public Result<String> logout(){
+        return Result.success();
     }
 }
