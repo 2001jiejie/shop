@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 @RestController
 public class Usercontroller {
@@ -23,13 +22,10 @@ public class Usercontroller {
     @PostMapping("/login")
     public Result<String> Login(@RequestParam("username") String username,
                                 @RequestParam("password") String password,
-                                HttpServletRequest request,
-                                HttpServletResponse response) {
+                                HttpServletRequest request) {
         bUser user = userservice.login(username, password);
         if (user != null) {
             String jwt=JwtUtils.generateToken(user.getId());
-            // 将JWT添加到响应头中
-            response.setHeader("Authorization", "Bearer " + jwt);
             return Result.success(jwt);
         } else {
             return Result.error("用户名或密码错误");
@@ -68,7 +64,7 @@ public class Usercontroller {
     @PostMapping("/addcart")
     public Result<String> addCart(@RequestParam("goodstable_id") Integer goodstable_id){
         Integer buserId = BaseContext.getCurrentId();
-        userservice.addCart(goodstable_id,buserId);
+        userservice.addCart(buserId,goodstable_id);
         return Result.success();
     }
 
@@ -76,5 +72,4 @@ public class Usercontroller {
 
 
     //购物车购买商品
-
 }

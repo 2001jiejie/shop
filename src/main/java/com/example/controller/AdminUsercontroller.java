@@ -27,10 +27,8 @@ public class AdminUsercontroller {
                                 HttpServletRequest request){
         aUser user = adminservice.login(ausername, apassword);
         if (user != null) {
-            String jwt = JwtUtils.generateToken(user.getId());
-            request.getSession().setAttribute("jwt", jwt);
-            request.getSession().setAttribute("user", user);
-            return Result.success();
+            String jwt=JwtUtils.generateToken(user.getId());
+            return Result.success(jwt);
         } else {
             return Result.error("管理员用户名或密码错误");
         }

@@ -43,13 +43,12 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addCart(Integer buserId, Integer goodstable_id){
-        Integer shoppingNum=usermapper.getShoppingNum(buserId,goodstable_id);
-        buserId=1;      //这里到时候要修改
-        if(shoppingNum==0){
-            shoppingNum=1;
-            usermapper.addCart(buserId,goodstable_id,shoppingNum);
+        Integer checkCartExists = usermapper.checkCartExists(buserId,goodstable_id);
+        if(checkCartExists == 0){
+            usermapper.addCart(buserId,goodstable_id,1);
         }
         else{
+            Integer shoppingNum=usermapper.getShoppingNum(buserId,goodstable_id);
             shoppingNum++;
             usermapper.updateCart(buserId,goodstable_id,shoppingNum);
         }

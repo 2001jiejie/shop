@@ -18,12 +18,19 @@ public interface Usermapper {
     @Select("select bname from buser where id = #{id}")
     bUser getUserById(Integer id);
 
-    @Select("select shoppingnum from  cart where bustable_id = #{buserId} and goodstable_id = #{goodstable_id}")
-    Integer getShoppingNum(Integer buserId, Integer goodstable_id);
+    //查询购物车中是否存在该商品
+    @Select("SELECT COUNT(*) FROM cart WHERE bustable_id = #{buserId} AND goodstable_id = #{goodstable_id}")
+    Integer checkCartExists(@Param("buserId") Integer buserId, @Param("goodstable_id") Integer goodstable_id);
 
+    //查询购物车中商品数量
+    @Select("SELECT shoppingnum FROM cart WHERE bustable_id = #{buserId} AND goodstable_id = #{goodstable_id}")
+    Integer getShoppingNum(@Param("buserId") Integer buserId, @Param("goodstable_id") Integer goodstable_id);
+
+    //添加商品到购物车
     @Insert("INSERT INTO cart (bustable_id, goodstable_id, shoppingnum) VALUES (#{buserId}, #{goodstable_id}, #{shoppingnum})")
-    void addCart(Integer buserId, Integer goodstable_id, Integer shoppingnum);
+    void addCart(@Param("buserId") Integer buserId, @Param("goodstable_id") Integer goodstable_id, @Param("shoppingnum") Integer shoppingnum);
 
+    //更新购物车中商品数量
     @Update("UPDATE cart SET shoppingnum = #{shoppingnum} WHERE bustable_id = #{buserId} AND goodstable_id = #{goodstable_id}")
-    void updateCart(Integer buserId, Integer goodstable_id, Integer shoppingnum);
+    void updateCart(@Param("buserId") Integer buserId, @Param("goodstable_id") Integer goodstable_id, @Param("shoppingnum") Integer shoppingnum);
 }
