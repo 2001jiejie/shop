@@ -1,9 +1,11 @@
 package com.example.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
+
 import java.util.HashMap;
 import java.util.Map;
 
-public class GoodsTypeMapper {
+public class GoodsTypemapper {
     private static final Map<String,Integer> typeMap = new HashMap();
     static{
         typeMap.put("电子产品",1);

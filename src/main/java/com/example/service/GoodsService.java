@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface GoodsService {
     public List<goodstable> ListAllGoods();
+
+    public List<goodstable> SearchGoods (String gname,String gtype);
 }

@@ -18,6 +18,7 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
         String authorizationHeader = request.getHeader("Authorization");
         if (authorizationHeader == null || !authorizationHeader.startsWith("Bearer ")) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+            response.getWriter().write("Authorization header is missing or invalid");
             return false;
         }
         String jwt=authorizationHeader.substring(7);

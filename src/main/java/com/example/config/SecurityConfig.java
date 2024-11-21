@@ -12,11 +12,9 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/register", "/login","/adminlogin").permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/**").permitAll()
                 .and()
                 .csrf().disable(); // 如果是前后端分离项目，禁用CSRF
-
         return http.build();
     }
 }

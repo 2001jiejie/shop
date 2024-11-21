@@ -15,7 +15,7 @@ public interface Goodsmapper {
     @SelectProvider(type=GoodsSqlProvider.class, method = "buildDynamicQuery")
     List<goodstable> searchGoods(
             @Param("gname") String gname,
-            @Param("gtype") String gtype
+            @Param("gtype") Integer gtype
             );
 
 }
