@@ -1,6 +1,10 @@
 package com.example.mapper;
 
 import com.example.entity.bUser;
+import com.example.entity.cart;
+
+import java.util.List;
+
 import org.apache.ibatis.annotations.*;
 
 @Mapper
@@ -18,19 +22,29 @@ public interface Usermapper {
     @Select("select bname from buser where id = #{id}")
     bUser getUserById(Integer id);
 
-    //查询购物车中是否存在该商品
+    // 查询购物车中是否存在该商品
     @Select("SELECT COUNT(*) FROM cart WHERE bustable_id = #{buserId} AND goodstable_id = #{goodstable_id}")
     Integer checkCartExists(@Param("buserId") Integer buserId, @Param("goodstable_id") Integer goodstable_id);
 
-    //查询购物车中商品数量
+    // 查询购物车中商品数量
     @Select("SELECT shoppingnum FROM cart WHERE bustable_id = #{buserId} AND goodstable_id = #{goodstable_id}")
     Integer getShoppingNum(@Param("buserId") Integer buserId, @Param("goodstable_id") Integer goodstable_id);
 
-    //添加商品到购物车
+    // 添加商品到购物车
     @Insert("INSERT INTO cart (bustable_id, goodstable_id, shoppingnum) VALUES (#{buserId}, #{goodstable_id}, #{shoppingnum})")
-    void addCart(@Param("buserId") Integer buserId, @Param("goodstable_id") Integer goodstable_id, @Param("shoppingnum") Integer shoppingnum);
+    void addCart(@Param("buserId") Integer buserId, @Param("goodstable_id") Integer goodstable_id,
+            @Param("shoppingnum") Integer shoppingnum);
 
-    //更新购物车中商品数量
+    // 更新购物车中商品数量
     @Update("UPDATE cart SET shoppingnum = #{shoppingnum} WHERE bustable_id = #{buserId} AND goodstable_id = #{goodstable_id}")
-    void updateCart(@Param("buserId") Integer buserId, @Param("goodstable_id") Integer goodstable_id, @Param("shoppingnum") Integer shoppingnum);
+    void updateCart(@Param("buserId") Integer buserId, @Param("goodstable_id") Integer goodstable_id,
+            @Param("shoppingnum") Integer shoppingnum);
+
+    // 查询购物车
+    @Select("SELECT * FROM cart WHERE bustable_id = #{buserId}")
+    List<cart> getCart(@Param("buserId") Integer buserId);
+
+    // 删除购物车
+    @Delete("DELETE FROM cart WHERE bustable_id = #{buserId} AND goodstable_id = #{goodstable_id}")
+    void deleteCart(@Param("buserId") Integer buserId, @Param("goodstable_id") Integer goodstable_id);
 }
