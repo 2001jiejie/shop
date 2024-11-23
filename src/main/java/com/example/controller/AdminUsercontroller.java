@@ -1,5 +1,4 @@
 package com.example.controller;
-
 import com.example.entity.*;
 import com.example.service.AdminService;
 import com.example.service.GoodsService;
@@ -185,6 +184,5 @@ public class AdminUsercontroller {
             return Result.error("删除失败");
         }
     }
-
 
 }
