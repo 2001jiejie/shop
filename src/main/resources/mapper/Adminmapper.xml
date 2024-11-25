@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.mapper.Adminmapper">
+
+    <select id="searchGoods" resultType= "com.example.entity.goodstable">
+        select * from goodstable
+        <where>
+            <if test ="gname!=null">
+                gname like concat('%',#{gname},'%')
+            </if>
+            <if test ="goodstype_id!=null">
+                and goodstype_id = #{goodstype_id}
+            </if>
+        </where>
+    </select>
+
+    <insert id="addGoods" parameterType="com.example.entity.goodstable">
+        INSERT INTO goodstable
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="gname != null">gname,</if>
+            <if test="goprice != null">goprice,</if>
+            <if test="grprice != null">grprice,</if>
+            <if test="gstore != null">gstore,</if>
+            <if test="gpicture != null">gpicture,</if>
+            <if test="goodstype_id != null">goodstype_id</if>
+        </trim>
+        VALUES
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="gname != null">#{gname},</if>
+            <if test="goprice != null">#{goprice},</if>
+            <if test="grprice != null">#{grprice},</if>
+            <if test="gstore != null">#{gstore},</if>
+            <if test="gpicture != null">#{gpicture},</if>
+            <if test="goodstype_id != null">#{goodstype_id}</if>
+        </trim>
+    </insert>
+
+    <update id="updateGoods">
+        update goodstable
+        <set>
+            <if test="gname != null">gname = #{gname}, </if>
+            <if test="goprice != null">goprice = #{goprice},</if>
+            <if test="grprice != null">grprice = #{grprice},</if>
+            <if test="gstore != null">gstore = #{gstore},</if>
+            <if test="gpicture != null">gpicture = #{gpicture},</if>
+            <if test="goodstype_id != null">goodstype_id = #{goodstype_id}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteGoods">
+        delete from goodstable
+        where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteGoodstypes">
+        delete from goodstype
+        where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <delete id="deleteUsers">
+        delete from buser
+        where id in
+        <foreach collection="list" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
+
