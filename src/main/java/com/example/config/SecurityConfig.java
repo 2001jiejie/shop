@@ -25,12 +25,21 @@ public class SecurityConfig {
     @Bean
     public CorsFilter corsFilter() {
         CorsConfiguration config = new CorsConfiguration();
-        config.addAllowedOrigin("*");
-        config.addAllowedHeader("*");
-        config.addAllowedMethod("*");
+        config.addAllowedOrigin("http://localhost:8081");
         config.setAllowCredentials(true);
+
+        // 允许的请求方法
+        config.addAllowedMethod("*");
+
+        // 允许的请求头
+        config.addAllowedHeader("*");
+
+        // 暴露响应头
+        config.addExposedHeader("*");
+
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
+
         return new CorsFilter(source);
     }
 }

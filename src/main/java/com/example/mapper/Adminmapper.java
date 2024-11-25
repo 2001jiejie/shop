@@ -1,12 +1,9 @@
 package com.example.mapper;
 
-import com.example.entity.aUser;
-import com.example.entity.bUser;
-import com.example.entity.goodstable;
+import com.example.entity.*;
 
 import java.util.List;
 
-import com.example.entity.goodstype;
 import org.apache.ibatis.annotations.*;
 
 @Mapper
@@ -81,4 +78,10 @@ public interface Adminmapper {
     // 批量删除用户
     public void deleteUsers(List<Integer> ids);
 
+    @Select("select aname from auser where id = #{id}")
+    aUser getUserById(Integer id);
+
+    // 根据订单编号查询订单
+    @Select("select * from orderbase where id = #{id}")
+    List<orderbase> searchOrder(Integer id);
 }

@@ -1,4 +1,5 @@
 package com.example.controller;
+import com.example.context.BaseContext;
 import com.example.entity.*;
 import com.example.service.AdminService;
 import com.example.service.GoodsService;
@@ -37,6 +38,18 @@ public class AdminUsercontroller {
     @GetMapping("/adminlogout")
     public Result<String> logout() {
         return Result.success();
+    }
+
+    // 查询管理员个人信息
+    @GetMapping("/adminuser")
+    public Result<aUser> getUser() {
+        Integer auserId = BaseContext.getCurrentId();
+        aUser auser = adminservice.getUserById(auserId);
+        if (auser != null) {
+            return Result.success(auser);
+        } else {
+            return Result.error("用户不存在");
+        }
     }
 
     // 所有商品
@@ -185,4 +198,25 @@ public class AdminUsercontroller {
         }
     }
 
+
+    // 所有订单
+    @GetMapping("/admin/orders")
+    public Result<List<orderbase>> getOrders(){
+        List<orderbase> ordersList = adminservice.ListAllOrders();
+        if (ordersList != null && !ordersList.isEmpty()) {
+            return Result.success(ordersList);
+        } else {
+            return Result.error("没找到订单");
+        }
+    }
+
+    // 查询订单
+    @GetMapping("/admin/searchorder")
+    public Result<List<orderbase>> Searchorders(@RequestParam("id") Integer id){
+        List<orderbase> ordersList = adminservice.SearchOrder(id);
+        if (ordersList != null && !ordersList.isEmpty())
+            return Result.success(ordersList);
+        else
+            return Result.error("没找到订单");
+    }
 }
