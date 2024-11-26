@@ -17,7 +17,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(loginCheckInterceptor)
                 .addPathPatterns("/**")  // 拦截所有请求
-                .excludePathPatterns("/login","/register","/favicon.ico","/adminlogin"); // 排除登录、注册等路径
+                .excludePathPatterns("/login","/register","/favicon.ico","/adminlogin","/home"); // 排除登录、注册等路径
     }
     @Override
     public void addCorsMappings(CorsRegistry registry) {

@@ -7,13 +7,10 @@ import com.example.entity.cart;
 import com.example.service.UserService;
 import com.example.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -66,9 +63,11 @@ public class Usercontroller {
 
     // 添加商品到购物车
     @PostMapping("/addcart")
-    public Result<String> addCart(@RequestParam("goodstable_id") Integer goodstable_id) {
+    public Result<String> addCart(@RequestBody Map<String, Object> request) {
         Integer buserId = BaseContext.getCurrentId();
-        userservice.addCart(buserId, goodstable_id);
+        List<Integer> goodstableId = (List<Integer>) request.get("goodstableId");
+        List<Integer> shoppingNum = (List<Integer>) request.get("shoppingnum");
+        userservice.addCart(buserId, goodstableId,shoppingNum);
         return Result.success();
     }
 
@@ -89,4 +88,5 @@ public class Usercontroller {
         }
         return Result.error("删除失败");
     }
+
 }

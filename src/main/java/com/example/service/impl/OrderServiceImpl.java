@@ -55,37 +55,56 @@ public class OrderServiceImpl implements OrderService {
         }
         goodsmapper.insertOrderDetail(orderDetails);
     }
-    
+
     public List<orderbase> getOrder(int userId) {
         return goodsmapper.selectOrderBaseByBustableId(userId);
     }
 
-    public void purchase(int userId, int goodstableId, int shoppingnum) {
-        int gstore = goodsmapper.getStoreByGoodstableId(goodstableId);
-        if (gstore < shoppingnum) {
-            throw new RuntimeException("库存不足");
-        } else {
-            goodsmapper.updateStoreByGoodstableId(goodstableId, gstore - shoppingnum);
+    public void purchase(int userId, List<Integer> goodstableId, List<Integer> shoppingnum) {
+        double totalAmount = 0;
+
+        // 先计算总金额
+        for (int i = 0; i < goodstableId.size(); i++) {
+            int goodsId = goodstableId.get(i);
+            int shoppingNum = shoppingnum.get(i);
+            double price = goodsmapper.getPriceByGoodstableId(goodsId);
+            totalAmount += price * shoppingNum;
         }
-        double price = goodsmapper.getPriceByGoodstableId(goodstableId);
-        double totalAmount = price * shoppingnum;
         totalAmount = Math.round(totalAmount * 100.0) / 100.0; // 保留两位小数
 
+        // 先创建订单基础信息
         orderbase order = new orderbase();
         order.setBustable_id(userId);
         order.setAmount(totalAmount);
         order.setStatus(2);
         order.setOrderdate(new Date(System.currentTimeMillis()));
-        
-        goodsmapper.insertOrderBase(order);
-        int orderId = order.getId();
 
-        orderdetail detail = new orderdetail();
-        detail.setOrderbasetable_id(orderId);
-        detail.setGoodstable_id(goodstableId);
-        detail.setShoppingnum(shoppingnum);
-        List<orderdetail> orderDetails = new ArrayList<>();
-        orderDetails.add(detail);
-        goodsmapper.insertOrderDetail(orderDetails);
+        goodsmapper.insertOrderBase(order);
+        int orderId = order.getId();  // 获取订单ID
+
+        // 再处理订单详情
+        for (int i = 0; i < goodstableId.size(); i++) {
+            int goodsId = goodstableId.get(i);
+            int shoppingNum = shoppingnum.get(i);
+
+            // 检查并更新库存
+            int gstore = goodsmapper.getStoreByGoodstableId(goodsId);
+            if (gstore < shoppingNum) {
+                throw new RuntimeException("库存不足");
+            } else {
+                goodsmapper.updateStoreByGoodstableId(goodsId, gstore- shoppingNum);
+            }
+
+            // 创建订单详情
+            orderdetail detail = new orderdetail();
+            detail.setOrderbasetable_id(orderId);  // 现在可以使用orderId了
+            detail.setGoodstable_id(goodsId);
+            detail.setShoppingnum(shoppingNum);
+
+            List<orderdetail> orderDetails = new ArrayList<>();
+            orderDetails.add(detail);
+            goodsmapper.insertOrderDetail(orderDetails);
+        }
     }
+
 }

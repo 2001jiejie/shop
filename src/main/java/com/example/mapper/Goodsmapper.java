@@ -44,11 +44,18 @@ public interface Goodsmapper {
     @Update("update goodstable set gstore=#{gstore} where id=#{goodstable_id}")
     int updateStoreByGoodstableId(@Param("goodstable_id") Integer goodstable_id, @Param("gstore") Integer gstore);
 
-
+    //通过goodstable_id查询商品
+    @Select("select * from goodstable where id = #{goodstableId}")
+    goodstable selectByGoodstableId(Integer goodstableId);
     //插入收藏
-    @Insert("insert into focus (bustable_id,goodstable_id) values (#{bustable_id},#{goodstable_id})")
-    int insertFocus(@Param("bustable_id") Integer bustable_id, @Param("goodstable_id") Integer goodstable_id);
-    
+    @Insert("<script>" +
+            "insert into focus (bustable_id, goodstable_id) values " +
+            "<foreach collection='goodstableIds' item='goodstableId' separator=','>" +
+            "(#{bustable_id}, #{goodstableId})" +
+            "</foreach>" +
+            "</script>")
+    int insertFocusBatch(@Param("bustable_id") Integer bustable_id,
+                         @Param("goodstableIds") List<Integer> goodstableIds);
     //删除收藏
     @Delete("delete from focus where bustable_id=#{bustable_id} and goodstable_id=#{goodstable_id}")
     int deleteFocus(@Param("bustable_id") Integer bustable_id, @Param("goodstable_id") Integer goodstable_id);
@@ -57,8 +64,9 @@ public interface Goodsmapper {
     //查询收藏
     @Select("select * from focus where bustable_id=#{bustable_id}")
     List<focus> selectFocusByBustableId(@Param("bustable_id") Integer bustable_id);
-    
-    
+
+    @Select("SELECT goodstable_id FROM focus WHERE bustable_id = #{userId}")
+    List<Integer> selectExistingFocus(@Param("userId") Integer userId);
     
     //插入订单基础信息,返回订单ID
     @Options(useGeneratedKeys = true, keyProperty = "id")

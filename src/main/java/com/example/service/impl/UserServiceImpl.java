@@ -45,15 +45,22 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addCart(Integer buserId, Integer goodstable_id) {
-        Integer checkCartExists = usermapper.checkCartExists(buserId, goodstable_id);
-        if (checkCartExists == 0) {
-            usermapper.addCart(buserId, goodstable_id, 1);
-        } else {
-            Integer shoppingNum = usermapper.getShoppingNum(buserId, goodstable_id);
-            shoppingNum++;
-            usermapper.updateCart(buserId, goodstable_id, shoppingNum);
+    public void addCart(Integer buserId, List<Integer> goodstable_id, List<Integer> shoppingNum) {
+        for (int i = 0; i < goodstable_id.size(); i++) {
+            Integer goodsId = goodstable_id.get(i);
+            Integer shoppingnum = shoppingNum.get(i);
+            Integer checkCartExists = usermapper.checkCartExists(buserId, goodsId);
+            if (checkCartExists == 0) {
+
+                usermapper.addCart(buserId, goodsId, shoppingnum);
+            } else {
+                Integer old_shoppingNum = usermapper.getShoppingNum(buserId, goodsId);
+                shoppingnum+=old_shoppingNum;
+                usermapper.updateCart(buserId,goodsId,shoppingnum);
+            }
         }
+
+
     }
 
     @Override

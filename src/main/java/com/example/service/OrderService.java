@@ -10,5 +10,5 @@ public interface OrderService {
 
     public List<orderbase> getOrder(int userId);
     
-    public void purchase(int userId, int goodstableId, int shoppingnum);
+    public void purchase(int userId,List<Integer>goodstableId,List<Integer>shoppingnum);
 }

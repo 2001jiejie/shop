@@ -10,4 +10,8 @@ public interface GoodsService {
     public List<goodstable> ListAllGoods();
 
     public List<goodstable> SearchGoods (String gname,String gtype);
+
+    public List<goodstable> GetGoodsById(List<Integer> goodsTableId);
+
+    public void DeleteFocusById(Integer userId,List<Integer> goodsTableId);
 }

@@ -13,7 +13,7 @@ public interface UserService {
 
     public bUser getUserById(Integer id);
 
-    public void addCart(Integer buserId, Integer goodstable_id);
+    public void addCart(Integer buserId, List<Integer> goodstable_id,List<Integer> shopping_num);
 
     public List<cart> getCart(Integer buserId);
 
