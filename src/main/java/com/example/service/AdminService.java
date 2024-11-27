@@ -2,10 +2,7 @@ package com.example.service;
 
 import java.util.List;
 
-import com.example.entity.aUser;
-import com.example.entity.bUser;
-import com.example.entity.goodstable;
-import com.example.entity.goodstype;
+import com.example.entity.*;
 
 public interface AdminService {
     public aUser login(String ausername, String apassword);
@@ -39,4 +36,10 @@ public interface AdminService {
     public boolean DeleteUser(Integer id);
 
     public boolean DeleteUsers(List<Integer> ids);
+
+    public aUser getUserById(Integer id);
+
+    public List<orderbase> ListAllOrders();
+
+    public List<orderbase> SearchOrder(Integer id);
 }

@@ -1,9 +1,6 @@
 package com.example.service.impl;
 
-import com.example.entity.aUser;
-import com.example.entity.bUser;
-import com.example.entity.goodstable;
-import com.example.entity.goodstype;
+import com.example.entity.*;
 import com.example.mapper.Adminmapper;
 import com.example.mapper.Goodsmapper;
 import com.example.service.AdminService;
@@ -124,5 +121,17 @@ public class AdminServiceImpl implements AdminService {
             }
         }
         return true;
+    }
+
+    public aUser getUserById(Integer id) {
+        return adminmapper.getUserById(id);
+    }
+
+    public List<orderbase> ListAllOrders(){
+        return goodsmapper.selectAllOrderBase();
+    }
+
+    public List<orderbase> SearchOrder(Integer id){
+        return adminmapper.searchOrder(id);
     }
 }
