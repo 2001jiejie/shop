@@ -6,7 +6,13 @@ import com.example.service.GoodsService;
 import com.example.utils.JwtUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -218,5 +224,47 @@ public class AdminUsercontroller {
             return Result.success(ordersList);
         else
             return Result.error("没找到订单");
+    }
+
+    //图片上传
+    @PostMapping("/upload")
+    public Result<String> uploadFile(@RequestParam("file") MultipartFile file) {
+        if (file.isEmpty()) {
+            return Result.error("没有文件");
+        }
+        try {
+            // 获取项目根目录
+            String projectRoot = System.getProperty("user.dir");
+            System.out.println("p:" + projectRoot);
+
+            // 创建一个File对象
+            File afile = new File(projectRoot);
+            // 使用getParentFile()方法获取父目录
+            File parentFile = afile.getParentFile();
+            if (parentFile != null) {
+                // 输出父目录
+                System.out.println("父目录: " + parentFile.getAbsolutePath());
+                // 指定要保存文件的相对路径
+                String relativePath = "frontend\\src\\assets";
+                // 构建完整的保存路径
+                Path fullUploadDir = Paths.get(parentFile.getAbsolutePath(), relativePath);
+                // 生成随机文件名
+                String randomFileName = Math.random() + ".png";
+                Path path = fullUploadDir.resolve(randomFileName); // 使用resolve来组合路径和文件名
+
+                // 确保目标目录存在
+                Files.createDirectories(fullUploadDir);
+                // 写入文件
+                Files.write(path, file.getBytes());
+                // 返回成功结果
+                return Result.success(randomFileName);
+            } else {
+                System.out.println("没有更上一级的目录了。");
+                return Result.error("无法找到合适的父目录来保存文件。");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+            return Result.error("File upload failed: " + e.getMessage());
+        }
     }
 }
