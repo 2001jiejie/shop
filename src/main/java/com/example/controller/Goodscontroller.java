@@ -94,4 +94,6 @@ public class Goodscontroller {
         goodsService.DeleteFocusById(userId, goodstableId);
         return Result.success("删除成功");
     }
+
+
 }

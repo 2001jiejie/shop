@@ -107,4 +107,8 @@ public class OrderServiceImpl implements OrderService {
         }
     }
 
+    public List<orderdetail> getOrderdeatil(int orderbase_id){
+       return goodsmapper.selectOrderDetail(orderbase_id);
+    }
+
 }

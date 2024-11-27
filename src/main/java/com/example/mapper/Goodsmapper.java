@@ -99,5 +99,8 @@ public interface Goodsmapper {
     })
     int insertOrderDetail(@Param("orderDetails") List<orderdetail> orderDetails);
 
+    @Select("select * from orderdetail where orderbasetable_id=#{orderbase_id}")
+    public List<orderdetail> selectOrderDetail(@Param("orderbase_id") Integer orderbase_id);
+
     
                 }
