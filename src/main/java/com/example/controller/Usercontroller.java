@@ -89,4 +89,14 @@ public class Usercontroller {
         return Result.error("删除失败");
     }
 
+    @PostMapping("/updatecart")
+    @ResponseBody
+    public Result<String> updateUser(@RequestBody Map<String, Object> request) {
+        Integer buserId = BaseContext.getCurrentId();
+        Integer cartId = (Integer) request.get("cart_id");
+        Integer shoppingNum = (Integer) request.get("shoppingnum");
+        userservice.updateCart(buserId, cartId, shoppingNum);
+        return Result.success();
+    }
+
 }

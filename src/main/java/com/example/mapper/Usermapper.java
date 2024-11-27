@@ -36,8 +36,8 @@ public interface Usermapper {
             @Param("shoppingnum") Integer shoppingnum);
 
     // 更新购物车中商品数量
-    @Update("UPDATE cart SET shoppingnum = #{shoppingnum} WHERE bustable_id = #{buserId} AND goodstable_id = #{goodstable_id}")
-    void updateCart(@Param("buserId") Integer buserId, @Param("goodstable_id") Integer goodstable_id,
+    @Update("UPDATE cart SET shoppingnum = #{shoppingnum} WHERE bustable_id = #{buserId} AND id = #{cart_id}")
+    void updateCart(@Param("buserId") Integer buserId, @Param("cart_id") Integer cart_id,
             @Param("shoppingnum") Integer shoppingnum);
 
     // 查询购物车

@@ -76,4 +76,9 @@ public class UserServiceImpl implements UserService {
         }
         return false;
     }
+
+    @Override
+    public void updateCart(Integer buserId, Integer cart_id, Integer shoppingNum) {
+        usermapper.updateCart(buserId, cart_id, shoppingNum);
+    }
 }
