@@ -80,13 +80,12 @@ public class Usercontroller {
     }
 
     // 删除购物车
-    @DeleteMapping("/deletecart")
-    public Result<String> deleteCart(@RequestParam("goodstable_id") Integer goodstable_id) {
-        Integer buserId = BaseContext.getCurrentId();
-        if (userservice.deleteCart(buserId, goodstable_id)) {
-            return Result.success();
-        }
-        return Result.error("删除失败");
+    @PostMapping("/deletecart")
+    public Result<String> deleteCart(@RequestBody Map<String, Object> request) {
+        List<Integer> cartId = (List<Integer>) request.get("cartId");
+        int buserId = BaseContext.getCurrentId();
+        userservice.deleteCart(buserId,cartId);
+        return Result.success();
     }
 
     @PostMapping("/updatecart")

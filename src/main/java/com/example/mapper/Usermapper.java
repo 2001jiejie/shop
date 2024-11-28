@@ -45,6 +45,6 @@ public interface Usermapper {
     List<cart> getCart(@Param("buserId") Integer buserId);
 
     // 删除购物车
-    @Delete("DELETE FROM cart WHERE bustable_id = #{buserId} AND goodstable_id = #{goodstable_id}")
-    void deleteCart(@Param("buserId") Integer buserId, @Param("goodstable_id") Integer goodstable_id);
+    @Delete("DELETE FROM cart WHERE goodstable_id =#{cart_id} and bustable_id=#{userId}")
+    void deleteCart(@Param("userId") Integer userId,@Param("cart_id") Integer cart_id);
 }

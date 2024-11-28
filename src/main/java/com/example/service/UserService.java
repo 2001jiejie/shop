@@ -17,7 +17,7 @@ public interface UserService {
 
     public List<cart> getCart(Integer buserId);
 
-    public boolean deleteCart(Integer buserId, Integer goodstable_id);
+    public void deleteCart(int userId,List<Integer> cart_id);
 
     public void updateCart(Integer buserId,Integer cart_id,Integer shopping_num );
 }

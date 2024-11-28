@@ -69,12 +69,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteCart(Integer buserId, Integer goodstable_id) {
-        usermapper.deleteCart(buserId, goodstable_id);
-        if (usermapper.checkCartExists(buserId, goodstable_id) == 0) {
-            return true;
-        }
-        return false;
+    public void deleteCart(int userId,List<Integer> cart_id) {
+       for (int i = 0; i < cart_id.size(); i++) {
+           int id = cart_id.get(i);
+           usermapper.deleteCart(userId,id);
+       }
+
     }
 
     @Override
